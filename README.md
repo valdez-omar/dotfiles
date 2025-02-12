@@ -34,7 +34,7 @@ Ensure you have the following installed on your system
 First, check out the dotfiles repo in your $HOME directory using git
 
 ```
-$ git clone git@codeberg.org:theDataFixer/dotfiles.git
+$ git clone git@github.com:valdezdata/dotfiles.git
 $ cd dotfiles
 ```
 
