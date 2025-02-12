@@ -1,0 +1,135 @@
+% tmux
+
+# attach to a session with the name my_session
+echo "tmux a -t my_session"
+
+# start a new session with the name my_session
+echo "tmux new -s my_session"
+
+# rename sessions
+echo "ctrl + b $"
+
+# rename windows
+echo "ctrl + b ,"
+
+# start new session
+echo ": new -s mysession"
+
+# show all sessions
+echo "ctrl + b s"
+
+# kill or delete current session
+echo ": kill-session"
+
+# session and window preview
+echo "ctrl + b w"
+
+# create window
+echo "ctrl + b c"
+
+# close current window
+echo "ctrl + b &"
+
+# move current window to the left by one position
+echo ": swap-window -t -1"
+
+# split current pane vertical
+echo "ctrl + b %"
+
+# split current pane horizontal
+echo 'ctrl + b"'
+
+# move current pane left
+echo "ctrl + b {"
+
+# move current pane right
+echo "ctrl + b }"
+
+# close current pane
+echo "ctrl + b x"
+
+# toggle pane zoom
+echo "ctrl + b z"
+
+# enter copy mode
+echo "ctrl + b ["
+
+% git log personal
+
+# git log graph all
+git log --graph --all
+
+# fancy git log graph all
+git log --graph --topo-order --pretty='%w(100,0,6)%C(yellow)%h%C(bold)%C(black)%d %C(cyan)%ar %C(green)%an%n%C(bold)%C(white)%s %N' --abbrev-commit
+
+# git log oneline
+git log --oneline
+
+% password store
+
+# create default secure password
+echo "pass generate folder/subfolder/entity"
+
+# search for password files cotaining search-string when decrypted
+echo "pass grep [GREPOPTIONS] search-string"
+
+# pass git log fancy
+pass git log --graph --topo-order --pretty='%w(100,0,6)%C(yellow)%h%C(bold)%C(black)%d %C(cyan)%ar %C(green)%an%n%C(bold)%C(white)%s %N' --abbrev-commit
+
+% calibre epub
+
+# Converting pdf to epub (install calibre first)
+echo "ebook-convert input.pdf output.epub"
+
+% Video recording (specific area mp4)
+
+# Select area
+wf-recorder -g "$(slurp)" -f ~/Videos/screen_recording.mp4
+
+% GIF recording (ffmpeg gif)
+
+# GIF recording, step one:
+ffmpeg -i ~/Videos/screen_recording.mp4 -vf "fps=10,scale=600:-1:flags=lanczos,palettegen" -y ~/Pictures/palette.png
+
+# GIF recording, step two:
+ffmpeg -i ~/Videos/screen_recording.mp4 -i ~/Pictures/palette.png -lavfi "fps=10,scale=600:-1:flags=lanczos[p];[p][1:v]paletteuse=dither=bayer:bayer_scale=5" -y ~/Pictures/screen_recording.gif
+
+% Search and replace vim
+
+# with @
+echo ":%s@findWord@replaceWord"
+
+% Record macro in neovim
+echo "Press `q` followed by a letter (from a to z), press q again to stop recording"
+
+% Find local IP address
+
+# Remember to see if you have vpn activated or not
+ip a\
+  | grep -Eo 'inet (addr:)?([0-9]*\.){3}[0-9]*' \
+  | grep -Eo '([0-9]*\.){3}[0-9]*' \
+  | grep -v '127.0.0.1' \
+  | tail -n1
+
+% Stow adopt
+
+# When you point to config files and to be in dotfiles folder
+stow --adopt .
+
+% Kernel messages
+
+# Check last 20 messages (like if connected usb)
+dmesg | tail -n 20
+
+% ivpn
+
+# Connect to specifc server
+echo "ivpn connect -l 'mx.wg.ivpn.net'"
+
+# Splittun
+echo "ivpn splittun -appadd iridium-browser --disable-gpu"
+
+% journalctl
+
+# see logs only error messages and higher priority logs
+journalctl -p err

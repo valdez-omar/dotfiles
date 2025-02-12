@@ -1,0 +1,35 @@
+# Alacritty Configuration
+
+# Font
+font:
+  normal:
+    family: JetBrains Mono
+    style: Regular
+  bold:
+    family: JetBrains Mono
+    style: Bold
+  italic:
+    family: JetBrains Mono
+    style: Italic
+  bold_italic:
+    family: JetBrains Mono
+    style: Bold Italic
+  size: 18.0
+
+# Window
+window:
+  decorations: none
+  opacity: 0.9
+
+# Shell
+shell:
+  program: /usr/bin/zsh
+
+# Key Bindings
+key_bindings:
+  - { key: K, mods: Control, action: ScrollPageUp }
+  - { key: J, mods: Control, action: ScrollPageDown }
+  - { key: Key0, mods: Control|Shift, action: IncreaseFontSize }
+  - { key: Key9, mods: Control|Shift, action: DecreaseFontSize }
+# Colors (you can include a theme file if you have one)
+# import current-theme.yml

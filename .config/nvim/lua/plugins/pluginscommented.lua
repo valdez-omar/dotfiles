@@ -1,0 +1,182 @@
+-- {
+--     "goolord/alpha-nvim",
+--     dependencies = { "nvim-tree/nvim-web-devicons" },
+--     config = function()
+--         local alpha = require "alpha"
+--         local dashboard = require "alpha.themes.dashboard"
+--
+--         dashboard.section.header.val = {
+--             "                                                     ",
+--             "  ███╗   ██╗███████╗ ██████╗ ██╗   ██╗██╗███╗   ███╗ ",
+--             "  ████╗  ██║██╔════╝██╔═══██╗██║   ██║██║████╗ ████║ ",
+--             "  ██╔██╗ ██║█████╗  ██║   ██║██║   ██║██║██╔████╔██║ ",
+--             "  ██║╚██╗██║██╔══╝  ██║   ██║╚██╗ ██╔╝██║██║╚██╔╝██║ ",
+--             "  ██║ ╚████║███████╗╚██████╔╝ ╚████╔╝ ██║██║ ╚═╝ ██║ ",
+--             "  ╚═╝  ╚═══╝╚══════╝ ╚═════╝   ╚═══╝  ╚═╝╚═╝     ╚═╝ ",
+--             "                                                     ",
+--         }
+--         -- Set the highlight group for the header
+--         vim.api.nvim_set_hl(0, "AlphaHeader", { fg = "#a6e3a1" })
+--
+--         -- Apply the highlight to the header
+--         dashboard.section.header.opts.hl = "AlphaHeader"
+--
+--         dashboard.section.buttons.val = {
+--             dashboard.button("f", "  Find file", ":Telescope find_files <CR>"),
+--             dashboard.button("y", "󰪶  Open file manager", ":Yazi<CR>"),
+--             dashboard.button("r", "  Recently used files", ":Telescope oldfiles <CR>"),
+--             dashboard.button("t", "󱎸  Find text", ":Telescope live_grep <CR>"),
+--             dashboard.button("c", "  Configuration", ":e ~/.config/nvim/init.lua<CR>"),
+--             dashboard.button("q", "  Quit Neovim", ":qa<CR>"),
+--         }
+--
+--         alpha.setup(dashboard.config)
+--     end,
+-- },
+
+-- UI for messages, cmdline and popmenu
+-- {
+-- 	"folke/noice.nvim",
+-- 	config = function()
+-- 		require("trouble").setup({})
+-- 	end,
+-- 	dependencies = {
+-- 		-- if you lazy-load any plugin below, make sure to add proper `module="..."` entries
+-- 		"MunifTanjim/nui.nvim",
+-- 		"rcarriga/nvim-notify",
+-- 	},
+-- },
+
+-- -- make nvim transparent toggle
+-- {
+-- 	"xiyaowong/nvim-transparent",
+-- 	-- config = function()
+-- 	-- 	require("transparent").clear_prefix("NeoTree")
+-- 	-- end,
+-- },
+--
+--
+--
+--
+-- -- Neo Tree
+-- {
+-- 	"nvim-neo-tree/neo-tree.nvim",
+-- 	branch = "v3.x",
+-- 	config = function()
+-- 		vim.keymap.set("n", "<C-n>", function()
+-- 			vim.cmd("Neotree toggle float")
+-- 		end)
+-- 	end,
+-- 	dependencies = {
+-- 		"nvim-lua/plenary.nvim",
+-- 		"nvim-tree/nvim-web-devicons", -- not strictly required, but recommended
+-- 		"MunifTanjim/nui.nvim",
+-- 		-- "3rd/image.nvim", -- Optional image support in preview window: See `# Preview Mode` for more information
+-- 	},
+-- },
+
+-- {
+--   "Exafunction/codeium.vim",
+--   event = "InsertEnter",
+--  config = function ()
+--     -- Change "<C-g>" here to any keycode you like.
+--     vim.keymap.set("i", "<C-e>", function () return vim.fn["codeium#Accept"]() end, { expr = true, silent = true })
+--     vim.keymap.set("i", "<c-n>", function() return vim.fn["codeium#CycleCompletions"](1) end, { expr = true, silent = true })
+--     vim.keymap.set("i", "<c-p>", function() return vim.fn["codeium#CycleCompletions"](-1) end, { expr = true, silent = true })
+--     vim.keymap.set("i", "<c-x>", function() return vim.fn["codeium#Clear"]() end, { expr = true, silent = true })
+--   end
+-- },
+
+-- parrot nvim
+-- {
+-- 	"frankroeder/parrot.nvim",
+-- 	event = "VeryLazy",
+-- 	dependencies = { "ibhagwan/fzf-lua", "nvim-lua/plenary.nvim" },
+-- 	config = function()
+-- 		require("parrot").setup({
+-- 			-- Providers must be explicitly added to make them available.
+-- 			providers = {
+-- 				anthropic = {
+-- 					api_key = os.getenv("ANTHROPIC_API_KEY"),
+-- 				},
+-- 			},
+-- 		})
+-- 	end,
+-- },
+
+-- "ray-x/go.nvim",
+
+-- {
+--   "rcarriga/nvim-dap-ui",
+--   dependencies = {"mfussenegger/nvim-dap", "nvim-neotest/nvim-nio"}
+-- },
+
+-- "theHamsta/nvim-dap-virtual-text",
+
+-- "leoluz/nvim-dap-go",
+
+-- -- gen nvim
+-- {
+--   "David-Kunz/gen.nvim",
+--   event = "VeryLazy",
+--   opts = {
+--     model = "llama3.2:latest",
+--     quit_map = "q",
+--     retry_map = "<c-r>",
+--     accept_map = "<c-cr>",
+--   },
+-- },
+
+-- -- showing diagnostics, references, telescope results
+-- {
+--   "folke/trouble.nvim",
+--   opts = {}, -- for default options, refer to the configuration section for custom setup.
+--   cmd = "Trouble",
+--   keys = {
+--     {
+--       "<leader>xx",
+--       "<cmd>Trouble diagnostics toggle<cr>",
+--       desc = "Diagnostics (Trouble)",
+--     },
+--     {
+--       "<leader>xX",
+--       "<cmd>Trouble diagnostics toggle filter.buf=0<cr>",
+--       desc = "Buffer Diagnostics (Trouble)",
+--     },
+--     {
+--       "<leader>cs",
+--       "<cmd>Trouble symbols toggle focus=false<cr>",
+--       desc = "Symbols (Trouble)",
+--     },
+--     {
+--       "<leader>cl",
+--       "<cmd>Trouble lsp toggle focus=false win.position=right<cr>",
+--       desc = "LSP Definitions / references / ... (Trouble)",
+--     },
+--     {
+--       "<leader>xL",
+--       "<cmd>Trouble loclist toggle<cr>",
+--       desc = "Location List (Trouble)",
+--     },
+--     {
+--       "<leader>xQ",
+--       "<cmd>Trouble qflist toggle<cr>",
+--       desc = "Quickfix List (Trouble)",
+--     },
+--   },
+-- },
+
+-- groq cloud
+-- {
+-- 	"Vinni-Cedraz/groq-chat.nvim",
+-- 	dependencies = {
+-- 		"nvim-lua/plenary.nvim",
+-- 	},
+-- 	config = function()
+-- 		require("groq-chat").setup({
+-- 			api_key = vim.env.GROQ_API_KEY, -- Required
+-- 			model = "llama-3.1-8b-instant",
+-- 			window_width = 80, -- Optional, default: 80
+-- 		})
+-- 	end,
+-- },
