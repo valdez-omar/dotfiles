@@ -1,4 +1,5 @@
--- require('telescope').load_extension('harpoon')
+-- Load telescope extensions
+-- require("telescope").load_extension("harpoon")
 require("telescope").load_extension("git_worktree")
 
 -- [[ Configure Telescope ]]
@@ -7,8 +8,8 @@ require("telescope").setup({
 	defaults = {
 		layout_strategy = "horizontal",
 		layout_config = {
-			preview_width = 0.65,
 			horizontal = {
+				preview_width = 0.65,
 				size = {
 					width = "95%",
 					height = "95%",
@@ -29,10 +30,19 @@ require("telescope").setup({
 			},
 		},
 	},
+	-- Add the ui-select extension
+	extensions = {
+		["ui-select"] = {
+			require("telescope.themes").get_dropdown({}), -- Use a dropdown theme
+		},
+	},
 })
 
 -- Enable telescope fzf native, if installed
 pcall(require("telescope").load_extension, "fzf")
+
+-- Load ui-select extension
+require("telescope").load_extension("ui-select")
 
 -- See `:help telescope.builtin`
 vim.keymap.set("n", "<leader>?", require("telescope.builtin").oldfiles, { desc = "[?] Find recently opened files" })

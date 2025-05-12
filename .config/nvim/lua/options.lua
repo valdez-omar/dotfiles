@@ -1,12 +1,16 @@
 -- Set colorscheme
-vim.cmd.colorscheme("catppuccin")
+vim.cmd([[colorscheme tokyonight-storm]])
+vim.api.nvim_set_hl(0, "CursorLineNr", { fg = "#8bd5ca" })
+
+-- Enable cursorline to highlight the current line
+vim.wo.cursorline = true
 
 -- Set highlight on search
 vim.o.hlsearch = true
 
 -- Make line numbers default
 vim.wo.number = true
-vim.o.relativenumber = false
+vim.o.relativenumber = true
 
 -- Disable mouse mode
 vim.o.mouse = ""

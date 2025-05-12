@@ -46,7 +46,12 @@ require("lazy").setup({
 	--
 
 	-- theme
-	{ "catppuccin/nvim", as = "catppuccin" },
+	{
+		"folke/tokyonight.nvim",
+		lazy = false,
+		priority = 1000,
+		opts = {},
+	},
 
 	--
 	-- TELESCOPE
@@ -60,6 +65,12 @@ require("lazy").setup({
 
 	-- Fuzzy Finder Algorithm which requires local dependencies to be built. Only load if `make` is available
 	{ "nvim-telescope/telescope-fzf-native.nvim", build = "make", cond = vim.fn.executable("make") == 1 },
+
+	-- tele ui select
+	{
+		"nvim-telescope/telescope-ui-select.nvim",
+		dependencies = { "nvim-telescope/telescope.nvim" },
+	},
 
 	--
 	-- GIT
@@ -75,66 +86,16 @@ require("lazy").setup({
 	-- CODE
 	--
 
-	-- gp.nvim AI chat session
+	-- codecompanion
 	{
-		"robitx/gp.nvim",
-		event = "VeryLazy",
+		"olimorris/codecompanion.nvim",
+		opts = {},
+		dependencies = {
+			"nvim-lua/plenary.nvim",
+			"nvim-treesitter/nvim-treesitter",
+		},
 		config = function()
-			local conf = {
-				providers = {
-					groq = {
-						disable = false,
-						endpoint = "https://api.groq.com/openai/v1/chat/completions",
-						secret = os.getenv("GROQ_API_KEY"),
-					},
-					openai = {
-						disable = true,
-						endpoint = "https://api.openai.com/v1/chat/completions",
-						-- secret = os.getenv("OPENAI_API_KEY"),
-					},
-				},
-				agents = {
-					{
-						name = "ChatGroqLlama3.2-90B-vision-preview",
-						provider = "groq",
-						chat = true,
-						command = false,
-						-- string with model name or table with model name and parameters
-						model = {
-							model = "llama-3.2-90b-vision-preview",
-							temperature = 0.6,
-							top_p = 1,
-							min_p = 0.05,
-						},
-						system_prompt = require("gp.defaults").chat_system_prompt,
-					},
-					{
-						name = "CodeGroqLlama3.2-90B",
-						provider = "groq",
-						chat = false,
-						command = true,
-						model = {
-							model = "llama-3.2-90b-vision-preview",
-							temperature = 0.4,
-							top_p = 1,
-							min_p = 0.05,
-						},
-						system_prompt = require("gp.defaults").code_system_prompt,
-					},
-				},
-			}
-			require("gp").setup(conf)
-
-			-- Setup shortcuts here (see Usage > Shortcuts in the Documentation/Readme)
-			vim.keymap.set("v", "<C-g>r", ":<C-u>'<,'>GpRewrite<cr>", { desc = "Visual Rewrite", noremap = true })
-			vim.keymap.set("v", "<C-g>a", ":<C-u>'<,'>GpAppend<cr>", { desc = "Visual Append ", noremap = true })
-			vim.keymap.set("v", "<C-g>b", ":<C-u>'<,'>GpPrepend<cr>", { desc = "Visual Prepend ", noremap = true })
-			vim.keymap.set(
-				"v",
-				"<C-g>i",
-				":<C-u>'<,'>GpImplement<cr>",
-				{ desc = "Implement selection", noremap = true }
-			)
+			require("plugins.codecompanion")
 		end,
 	},
 
@@ -228,6 +189,19 @@ require("lazy").setup({
 		event = "InsertEnter",
 		config = function()
 			require("nvim-autopairs").setup({})
+		end,
+	},
+
+	{
+		"folke/trouble.nvim",
+		lazy = false,
+		dependencies = "nvim-tree/nvim-web-devicons",
+		config = function()
+			require("trouble").setup({
+				-- your configuration comes here
+				-- or leave it empty to use the default settings
+				-- refer to the configuration section below
+			})
 		end,
 	},
 

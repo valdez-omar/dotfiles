@@ -9,19 +9,14 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 	pattern = "*",
 })
 
-local signs = {
-	{ name = "DiagnosticSignError", text = "✘" },
-	{ name = "DiagnosticSignWarn", text = " " },
-	{ name = "DiagnosticSignHint", text = "⚑" },
-	{ name = "DiagnosticSignInfo", text = " " },
-}
-
-for _, sign in ipairs(signs) do
-	vim.fn.sign_define(sign.name, { texthl = sign.name, text = sign.text, numhl = "" })
-end
-
+-- Define diagnostic signs using the newer API
 vim.diagnostic.config({
 	signs = {
-		active = signs,
+		text = {
+			[vim.diagnostic.severity.ERROR] = "✘",
+			[vim.diagnostic.severity.WARN] = " ",
+			[vim.diagnostic.severity.HINT] = "⚑",
+			[vim.diagnostic.severity.INFO] = " ",
+		},
 	},
 })

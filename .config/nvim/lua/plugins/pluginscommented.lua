@@ -166,6 +166,91 @@
 --   },
 -- },
 
+-- -- gen nvim
+-- 	{
+-- 		"David-Kunz/gen.nvim",
+-- 		opts = {
+-- 			model = "stable-code:latest", -- The default model to use.
+-- 			quit_map = "q", -- set keymap to close the response window
+-- 			retry_map = "<c-r>", -- set keymap to re-send the current prompt
+-- 			accept_map = "<c-cr>", -- set keymap to replace the previous selection with the last result
+-- 			host = "localhost", -- The host running the Ollama service.
+-- 			port = "11434", -- The port on which the Ollama service is listening.
+-- 			display_mode = "float", -- The display mode. Can be "float" or "split" or "horizontal-split".
+-- 			show_prompt = false, -- Shows the prompt submitted to Ollama. Can be true (3 lines) or "full".
+-- 			show_model = false, -- Displays which model you are using at the beginning of your chat session.
+-- 			no_auto_close = false, -- Never closes the window automatically.
+-- 			file = false, -- Write the payload to a temporary file to keep the command short.
+-- 			hidden = false, -- Hide the generation window (if true, will implicitly set `prompt.replace = true`), requires Neovim >= 0.10
+-- 			init = function(options)
+-- 				pcall(io.popen, "ollama serve > /dev/null 2>&1 &")
+-- 			end,
+-- 			-- Function to initialize Ollama
+-- 			command = function(options)
+-- 				local body = { model = options.model, stream = true }
+-- 				return "curl --silent --no-buffer -X POST http://"
+-- 					.. options.host
+-- 					.. ":"
+-- 					.. options.port
+-- 					.. "/api/chat -d $body"
+-- 			end,
+-- 			-- The command for the Ollama service. You can use placeholders $prompt, $model and $body (shellescaped).
+-- 			-- This can also be a command string.
+-- 			-- The executed command must return a JSON object with { response, context }
+-- 			-- (context property is optional).
+-- 			-- list_models = '<omitted lua function>', -- Retrieves a list of model names
+-- 			result_filetype = "markdown", -- Configure filetype of the result buffer
+-- 			debug = false, -- Prints errors and the command which is run.
+-- 			prompts = {
+-- 				Generate = {
+-- 					prompt = "$input",
+-- 					replace = false,
+-- 				},
+-- 				MyCustomPrompt = {
+-- 					prompt = "Rewrite this text in a different way:\n$text",
+-- 					replace = false,
+-- 				},
+-- 				Change = {
+-- 					prompt = "Change the following text, $input, just output the final text without additional quotes around it:\n$text",
+-- 					replace = false,
+-- 				},
+-- 				Enhance_Grammar_Spelling = {
+-- 					prompt = "Modify the following text to improve grammar and spelling, just output the final text without additional quotes around it:\n$text",
+-- 					replace = false,
+-- 				},
+-- 				Enhance_Wording = {
+-- 					prompt = "Modify the following text to use better wording, just output the final text without additional quotes around it:\n$text",
+-- 					replace = false,
+-- 				},
+-- 				Make_Concise = {
+-- 					prompt = "Modify the following text to make it as simple and concise as possible, just output the final text without additional quotes around it:\n$text",
+-- 					replace = false,
+-- 				},
+-- 				Make_List = {
+-- 					prompt = "Render the following text as a markdown list:\n$text",
+-- 					replace = false,
+-- 				},
+-- 				Make_Table = {
+-- 					prompt = "Render the following text as a markdown table:\n$text",
+-- 					replace = false,
+-- 				},
+-- 				Review_Code = {
+-- 					prompt = "Review the following code and make concise suggestions:\n```$filetype\n$text\n```",
+-- 				},
+-- 				Enhance_Code = {
+-- 					prompt = "Enhance the following code, only output the result in format ```$filetype\n...\n```:\n```$filetype\n$text\n```",
+-- 					replace = false,
+-- 					extract = "```$filetype\n(.-)```",
+-- 				},
+-- 				Change_Code = {
+-- 					prompt = "Regarding the following code, $input, only output the result in format ```$filetype\n...\n```:\n```$filetype\n$text\n```",
+-- 					replace = false,
+-- 					extract = "```$filetype\n(.-)```",
+-- 				},
+-- 			},
+-- 		},
+-- 	},
+
 -- groq cloud
 -- {
 -- 	"Vinni-Cedraz/groq-chat.nvim",
@@ -180,3 +265,335 @@
 -- 		})
 -- 	end,
 -- },
+
+-- -- gp.nvim AI chat session
+-- 	{
+-- 		"robitx/gp.nvim",
+-- 		event = "VeryLazy",
+-- 		config = function()
+-- 			local conf = {
+-- 				providers = {
+-- 					groq = {
+-- 						disable = false,
+-- 						endpoint = "https://api.groq.com/openai/v1/chat/completions",
+-- 						secret = os.getenv("GROQ_API_KEY"),
+-- 					},
+-- 					openai = {
+-- 						disable = true,
+-- 						endpoint = "https://api.openai.com/v1/chat/completions",
+-- 						-- secret = os.getenv("OPENAI_API_KEY"),
+-- 					},
+-- 				},
+-- 				agents = {
+-- 					{
+-- 						name = "ChatGroqGemma2-9B",
+-- 						provider = "groq",
+-- 						chat = true,
+-- 						command = false,
+-- 						-- string with model name or table with model name and parameters
+-- 						model = {
+-- 							model = "gemma2-9b-it",
+-- 							temperature = 0.6,
+-- 							top_p = 1,
+-- 							min_p = 0.05,
+-- 						},
+-- 						system_prompt = require("gp.defaults").chat_system_prompt,
+-- 					},
+-- 					{
+-- 						name = "CodeGroqLlamaInstant",
+-- 						provider = "groq",
+-- 						chat = false,
+-- 						command = true,
+-- 						model = {
+-- 							model = "llama-3.1-8b-instant",
+-- 							temperature = 0.4,
+-- 							top_p = 1,
+-- 							min_p = 0.05,
+-- 						},
+-- 						system_prompt = require("gp.defaults").code_system_prompt,
+-- 					},
+-- 				},
+-- 			}
+-- 			require("gp").setup(conf)
+--
+-- 			-- Setup shortcuts here (see Usage > Shortcuts in the Documentation/Readme)
+-- 			vim.keymap.set("v", "<C-g>r", ":<C-u>'<,'>GpRewrite<cr>", { desc = "Visual Rewrite", noremap = true })
+-- 			vim.keymap.set("v", "<C-g>a", ":<C-u>'<,'>GpAppend<cr>", { desc = "Visual Append ", noremap = true })
+-- 			vim.keymap.set("v", "<C-g>b", ":<C-u>'<,'>GpPrepend<cr>", { desc = "Visual Prepend ", noremap = true })
+-- 			vim.keymap.set(
+-- 				"v",
+-- 				"<C-g>i",
+-- 				":<C-u>'<,'>GpImplement<cr>",
+-- 				{ desc = "Implement selection", noremap = true }
+-- 			)
+-- 		end,
+-- 	},
+--
+-- 	-- codeium
+-- 	{
+-- 		"Exafunction/codeium.vim",
+-- 		event = "BufEnter",
+-- 		config = function()
+-- 			-- Change "<C-g>" here to any keycode you like.
+-- 			vim.keymap.set("i", "<C-e>", function()
+-- 				return vim.fn["codeium#Accept"]()
+-- 			end, { expr = true, silent = true })
+-- 			vim.keymap.set("i", "<c-n>", function()
+-- 				return vim.fn["codeium#CycleCompletions"](1)
+-- 			end, { expr = true, silent = true })
+-- 			vim.keymap.set("i", "<c-p>", function()
+-- 				return vim.fn["codeium#CycleCompletions"](-1)
+-- 			end, { expr = true, silent = true })
+-- 			vim.keymap.set("i", "<c-x>", function()
+-- 				return vim.fn["codeium#Clear"]()
+-- 			end, { expr = true, silent = true })
+-- 		end,
+-- 	},
+-- 	-- gp.nvim AI chat session (update)
+-- {
+-- 	"robitx/gp.nvim",
+-- 	event = "VeryLazy",
+-- 	config = function()
+-- 		local conf = {
+-- 			providers = {
+-- 				groq = {
+-- 					disable = false,
+-- 					endpoint = "https://api.groq.com/openai/v1/chat/completions",
+-- 					secret = os.getenv("GROQ_API_KEY"),
+-- 				},
+-- 				openai = {
+-- 					disable = false,
+-- 					endpoint = "https://api.openai.com/v1/chat/completions",
+-- 					secret = os.getenv("OPENAI_API_KEY"),
+-- 				},
+-- 			},
+-- 			-- Set default agents here
+-- 			default_command_agent = "Gemma2-9B",
+-- 			default_chat_agent = "Llama3.3-70B-versatile", -- Updated with one of your defined chat agents
+-- 			agents = {
+-- 				{
+-- 					name = "Llama3.3-70B-versatile",
+-- 					provider = "groq",
+-- 					chat = true,
+-- 					command = true,
+-- 					model = {
+-- 						model = "llama-3.3-70b-versatile",
+-- 						temperature = 0.4,
+-- 						top_p = 1,
+-- 						min_p = 0.05,
+-- 					},
+-- 					system_prompt = require("gp.defaults").chat_system_prompt,
+-- 				},
+-- 				{
+-- 					name = "LlamaSimple-70B",
+-- 					provider = "groq",
+-- 					chat = true,
+-- 					command = true,
+-- 					model = {
+-- 						model = "llama3-70b-8192",
+-- 						temperature = 0.4,
+-- 						top_p = 1,
+-- 						min_p = 0.05,
+-- 					},
+-- 					system_prompt = require("gp.defaults").code_system_prompt,
+-- 				},
+-- 				{
+-- 					name = "Gemma2-9B",
+-- 					provider = "groq",
+-- 					chat = true,
+-- 					command = true,
+-- 					model = {
+-- 						model = "gemma2-9b-it",
+-- 						temperature = 0.4,
+-- 						top_p = 1,
+-- 						min_p = 0.05,
+-- 					},
+-- 					system_prompt = require("gp.defaults").code_system_prompt,
+-- 				},
+-- 				{
+-- 					name = "Mixtral8x7B",
+-- 					provider = "groq",
+-- 					chat = true,
+-- 					command = true,
+-- 					model = {
+-- 						model = "mixtral-8x7b-32768",
+-- 						temperature = 0.4,
+-- 						top_p = 1,
+-- 						min_p = 0.05,
+-- 					},
+-- 					system_prompt = require("gp.defaults").code_system_prompt,
+-- 				},
+-- 			},
+-- 		}
+-- 		require("gp").setup(conf)
+-- 	end,
+-- },
+-- codecompanion.lua file
+-- -- local M = {}
+--
+-- M.setup = function()
+-- 	require("codecompanion").setup({
+-- 		adapters = {
+-- 			-- Groq adapter (Ensure GROQ_API_KEY is set in your environment)
+-- 			groq = function()
+-- 				return require("codecompanion.adapters").extend("openai_compatible", {
+-- 					name = "groq",
+-- 					formatted_name = "Groq",
+-- 					url = "https://api.groq.com/openai/v1/chat/completions",
+-- 					env = {
+-- 						api_key = "GROQ_API_KEY",
+-- 					},
+-- 					schema = {
+-- 						model = {
+-- 							default = "gemma2-9b-it", -- Or choose another Groq model you prefer
+-- 							choices = {
+-- 								"gemma2-9b-it",
+-- 								"llama3-70b-8192",
+-- 								"mixtral-8x7b-32768",
+-- 							},
+-- 						},
+-- 					},
+-- 				})
+-- 			end,
+--
+-- 			-- Samba adapter
+-- 			samba = function()
+-- 				return require("codecompanion.adapters").extend("openai_compatible", {
+-- 					name = "samba",
+-- 					formatted_name = "SambaNova",
+-- 					url = "https://api.sambanova.ai/v1/chat/completions",
+-- 					env = {
+-- 						api_key = "SAMBA_API_KEY",
+-- 					},
+-- 					schema = {
+-- 						model = {
+-- 							default = "Meta-Llama-3.3-70B-Instruct",
+-- 							choices = {
+-- 								"Meta-Llama-3.3-70B-Instruct",
+-- 							},
+-- 						},
+-- 					},
+-- 				})
+-- 			end,
+--
+-- 			-- Together adapter
+-- 			together = function()
+-- 				return require("codecompanion.adapters").extend("openai_compatible", {
+-- 					name = "together",
+-- 					formatted_name = "Together AI",
+-- 					url = "https://api.together.xyz/v1/chat/completions",
+-- 					env = {
+-- 						api_key = "TOGETHER_API_KEY",
+-- 					},
+-- 					schema = {
+-- 						model = {
+-- 							default = "meta-llama/Llama-3.3-70B-Instruct-Turbo-Free",
+-- 							choices = {
+-- 								"meta-llama/Llama-3.3-70B-Instruct-Turbo-Free",
+-- 								"deepseek-ai/DeepSeek-R1-Distill-Llama-70B-free",
+-- 							},
+-- 						},
+-- 					},
+-- 				})
+-- 			end,
+--
+-- 			-- Ollama adapter (local)
+-- 			ollama = function()
+-- 				return require("codecompanion.adapters").extend("ollama", {
+-- 					schema = {
+-- 						model = {
+-- 							default = "llama3:latest",
+-- 							choices = {
+-- 								"llama3:latest",
+-- 								"mistral:latest",
+-- 								"deepseek-coder:latest",
+-- 								"gemma:latest",
+-- 							},
+-- 						},
+-- 					},
+-- 				})
+-- 			end,
+--
+-- 			-- OpenAI adapter
+-- 			openai = function()
+-- 				return require("codecompanion.adapters").extend("openai", {
+-- 					env = {
+-- 						api_key = "OPENAI_API_KEY",
+-- 					},
+-- 					schema = {
+-- 						model = {
+-- 							default = "gpt-3.5-turbo",
+-- 							choices = {
+-- 								"gpt-3.5-turbo",
+-- 								"gpt-4o",
+-- 							},
+-- 						},
+-- 					},
+-- 				})
+-- 			end,
+--
+-- 			-- Gemini adapter
+-- 			gemini = function()
+-- 				return require("codecompanion.adapters").extend("gemini", {
+-- 					env = {
+-- 						api_key = "GEMINI_API_KEY",
+-- 					},
+-- 					schema = {
+-- 						model = {
+-- 							default = "gemini-1.5-pro",
+-- 							choices = {
+-- 								"gemini-1.5-pro",
+-- 								"gemini-1.5-flash",
+-- 							},
+-- 						},
+-- 					},
+-- 				})
+-- 			end,
+-- 		},
+--
+-- 		-- === Set Groq as the default adapter ===
+-- 		strategies = {
+-- 			chat = { adapter = "groq" },
+-- 			inline = { adapter = "groq" },
+-- 			agent = { adapter = "groq" },
+-- 		},
+--
+-- 		-- Display settings
+-- 		display = {
+-- 			chat = {
+-- 				show_settings = true,
+-- 				show_token_count = true,
+-- 				window = {
+-- 					layout = "vertical",
+-- 				},
+-- 			},
+-- 			-- Optional: Configure action palette UI provider if desired
+-- 			-- action_palette = {
+-- 			--   provider = "telescope", -- or "mini_pick" or "vim.ui.select" (default)
+-- 			-- }
+-- 		},
+--
+-- 		-- Additional options
+-- 		opts = {
+-- 			log_level = "DEBUG", -- Keep for troubleshooting if needed, change to INFO or WARN later
+-- 		},
+-- 	})
+-- end
+--
+-- -- Function to switch between providers (called by keymaps)
+-- M.switch_provider = function(provider)
+-- 	-- This function might need adjustment based on the exact CodeCompanion API
+-- 	-- for changing adapters dynamically if the simple setup override causes issues.
+-- 	-- For now, assuming reloading the setup works.
+-- 	M.setup() -- Reload setup to apply changes (may not be the most efficient way)
+-- 	-- Or, potentially use a more direct API if available:
+-- 	-- require("codecompanion").set_strategy_adapter("chat", provider)
+-- 	-- require("codecompanion").set_strategy_adapter("inline", provider)
+-- 	-- require("codecompanion").set_strategy_adapter("agent", provider)
+-- 	vim.notify("Attempted to switch to " .. provider .. " adapter", vim.log.levels.INFO)
+-- end
+--
+-- -- Call the setup function when this file is required
+-- M.setup()
+--
+-- return M

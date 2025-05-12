@@ -54,6 +54,61 @@ echo "ctrl + b z"
 # enter copy mode
 echo "ctrl + b ["
 
+$ % vim
+
+# buffer new
+echo ": enew"
+
+# macro recording
+echo "q a ... q"
+echo "@a 12@a"
+
+# norm
+echo ": norm A!"
+echo ": norm Icall('"
+
+# shell !
+echo "!ls"
+echo "!cat /tmp/file.txt"
+echo "!sort"
+echo "!sort | uniq"
+
+# Open files / URLs with gf / gx
+echo "gf for opening files"
+echo "gx for opening urls"
+
+# % for jumping to the matching
+echo "% ( or { or ["
+
+# i / a (inside / outside)
+echo "{('hello')}"
+ehco "want to select only 'hello', vi'"
+echo "want to select 'hello' with ', va'"
+echo "want to select a word, viw or vaw"
+echo "ci( is 'change inside brackets'"
+echo "di( is 'delete inside brackets'"
+
+# match only whole words
+echo ":%s/\<foo\>/bar/g"
+
+# replace in visual mode easily
+echo ":s/foo/bar/g"
+
+# quick and simple serach and replace
+echo "%s/old/new/g"
+
+# meaning of <,'>s/\..\+//g
+echo ""
+
+# find next
+echo "f( will be find next '('"
+
+# control increment numbers
+echo "gC-a"
+
+# change visual mode direction
+echo "type o"
+
 % git log personal
 
 # git log graph all
@@ -133,3 +188,26 @@ echo "ivpn splittun -appadd iridium-browser --disable-gpu"
 
 # see logs only error messages and higher priority logs
 journalctl -p err
+
+% unix
+
+# testing which files to output
+find . -type f -not \( -path "*/.git/*" -o -path "*/node_modules/*" -o -path "*/vendor/*" -o -path "*/dist/*" -o -path "*/build/*" -o -path "*/target/*" -o -name "context.txt" -o -name ".env" -o -name "*.env" -o -name "secrets.*" -o -name "credentials.*" -o -name "config.*" -o -name "*.key" -o -name "*.pem" -o -path "*/config/*" -o -path "*/secrets/*" \)
+
+# add to txt file all
+find . -type f -not \( -path "*/.git/*" -o -path "*/node_modules/*" -o -path "*/vendor/*" -o -path "*/dist/*" -o -path "*/build/*" -o -path "*/target/*" -o -name "context.txt" -o -name ".env" -o -name "*.env" -o -name "secrets.*" -o -name "credentials.*" -o -name "config.*" -o -name "*.key" -o -name "*.pem" -o -path "*/config/*" -o -path "*/secrets/*" \) -exec sh -c 'echo "\n=== {} ===\n"; cat {}' \; > context.txt
+
+# add to txt file all files but exclude binaries
+find . -type f -not \( -path "*/.git/*" -o -path "*/node_modules/*" -o -path "*/vendor/*" -o -path "*/dist/*" -o -path "*/build/*" -o -path "*/target/*" -o -name "context.txt" -o -name ".env" -o -name "*.env" -o -name "secrets.*" -o -name "credentials.*" -o -name "config.*" -o -name "*.key" -o -name "*.pem" -o -path "*/config/*" -o -path "*/secrets/*" \) -exec sh -c 'if file -b --mime-type "{}" | grep -q text; then echo "\n=== {} ===\n"; cat "{}"; fi' \; > context.txt
+
+# add to txt file all in current dir maxdepth 1
+find . -maxdepth 1 -type f -not \( -path "./.git/*" -o -path "./node_modules/*" -o -path "./vendor/*" -o -path "./dist/*" -o -path "./build/*" -o -path "./target/*" -o -name "context.txt" -o -name ".env" -o -name "*.env" -o -name "secrets.*" -o -name "credentials.*" -o -name "config.*" -o -name "*.key" -o -name "*.pem" -o -path "./config/*" -o -path "./secrets/*" \) -exec sh -c 'echo "\n=== {} ===\n"; cat {}' \; > context.txt
+
+# add to txt file all withing git repo
+git ls-files | xargs -I {} sh -c 'echo "\n=== {} ===\n"; cat {}' > context.txt
+
+# encrypt example
+openssl enc -aes-256-cbc -md sha512 -pbkdf2 -iter 250000 -salt -in images.tar.gz -out images.tar.gz.enc
+
+# decrypt example
+openssl enc -aes-256-cbc -d -md sha512 -pbkdf2 -iter 250000 -salt -in images.tar.gz.enc -out images.tar.gz
